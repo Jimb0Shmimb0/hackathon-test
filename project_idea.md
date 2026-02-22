@@ -25,3 +25,15 @@ OPTIONAL: Temperature tracking over the next few days, alert users of certain pr
 Country, email, name
 
 
+# Live Bitcoin Dashboard
+
+This is a live dashboard in real time that is constantly updating to reflect the price of Bitcoin. It provides changes in price, and 
+the probability bitcoin will rise the next day using machine learning.
+
+This is like quant.
+
+#### What it uses
+Uses machine learning (for probability), Python Requests (API calls to
+CoinMarketCap free API), front end design not 100% necessary, can
+run in terminal. Also uses Microsoft Power BI for a live constantly
+updating dashboard of bitcoin statistics.
