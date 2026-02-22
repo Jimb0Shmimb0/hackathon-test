@@ -1,4 +1,4 @@
-**Product expiry tracker idea**
+# Product expiry tracker idea
 
 fridge tracker, cupboard tracker, to detect when things go out of date
 
