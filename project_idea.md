@@ -37,3 +37,6 @@ Uses machine learning (for probability), Python Requests (API calls to
 CoinMarketCap free API), front end design not 100% necessary, can
 run in terminal. Also uses Microsoft Power BI for a live constantly
 updating dashboard of bitcoin statistics.
+
+
+
