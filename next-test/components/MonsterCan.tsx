@@ -38,7 +38,7 @@ function Can() {
 
     // Only wrap the body, not the caps - trim height slightly
     const radius = (Math.max(size.x, size.z) / 2) * 1.02
-    const bodyHeight = size.y * 0.88
+    const bodyHeight = size.y * 0.80
 
     // Compute segment counts so grid cells are roughly square
     const radialSegs = 28
@@ -58,7 +58,9 @@ function Can() {
       depthWrite: false,
     })
     const grid = new THREE.Mesh(cylGeo, gridMat)
-    grid.position.copy(center)
+    // Shift down so the bottom stays at its original position
+    const bottomOffset = (size.y * 0.88 - size.y * 0.80) / 2
+    grid.position.set(center.x, center.y - bottomOffset, center.z)
     grid.name = '__grid__'
     canRef.current.add(grid)
 
@@ -79,7 +81,7 @@ function Can() {
           depthWrite: false,
         })
       )
-      halo.position.copy(center)
+      halo.position.set(center.x, center.y - bottomOffset, center.z)
       halo.scale.setScalar(scale)
       halo.name = `__halo_${i}__`
       canRef.current!.add(halo)
