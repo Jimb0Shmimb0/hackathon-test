@@ -64,6 +64,42 @@ function Can() {
     grid.name = '__grid__'
     canRef.current.add(grid)
 
+    // Neck/shoulder section - tapered frustum from body top up to the neck ring
+    const bodyTopY   = center.y - bottomOffset + bodyHeight / 2
+    const neckTopY   = center.y - size.y / 2 + size.y * 0.97
+    const neckHeight = neckTopY - bodyTopY
+    const neckTopR   = radius * 0.88
+    const neckMidY   = (bodyTopY + neckTopY) / 2
+    const neckHeightSegs = Math.max(2, Math.round(neckHeight / segWidth))
+
+    const neckGeo = new THREE.CylinderGeometry(
+      neckTopR, radius, neckHeight, radialSegs, neckHeightSegs
+    )
+    const neck = new THREE.Mesh(neckGeo, new THREE.MeshBasicMaterial({
+      color: GLOW_COLOR,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.7,
+      depthWrite: false,
+      depthTest: false,
+    }))
+    neck.position.set(center.x, neckMidY, center.z)
+    neck.name = '__neck__'
+    canRef.current.add(neck)
+
+    // Neck halo layers
+    const neckHaloOffsets = [0.008, 0.022, 0.042]
+    neckHaloOffsets.forEach((off, i) => {
+      const opacity = [0.28, 0.12, 0.05][i]
+      const nH = new THREE.Mesh(
+        new THREE.CylinderGeometry(neckTopR + off * radius, radius + off * radius, neckHeight, radialSegs, neckHeightSegs),
+        new THREE.MeshBasicMaterial({ color: GLOW_COLOR, wireframe: true, transparent: true, opacity, depthWrite: false, depthTest: false })
+      )
+      nH.position.set(center.x, neckMidY, center.z)
+      nH.name = `__neck_halo_${i}__`
+      canRef.current!.add(nH)
+    })
+
     // Glow halo layers
     const haloLayers = [
       { scale: 1.008, opacity: 0.28 },
