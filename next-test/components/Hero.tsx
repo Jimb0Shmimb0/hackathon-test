@@ -1,8 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { drinks } from '@/lib/data'
 import styles from './Hero.module.css'
+
+const MonsterCan = dynamic(() => import('./MonsterCan'), { ssr: false })
 
 const stats = [
   { label: 'Products Tracked', value: '15' },
@@ -32,6 +35,7 @@ export default function Hero() {
   return (
     <section className={styles.hero}>
       <div className={styles.heroInner}>
+        <div className={styles.heroLeft}>
         <div className={styles.heroContent}>
           <div className={styles.heroEyebrow}>
             <span className={styles.eyebrowDot} />
@@ -74,6 +78,11 @@ export default function Hero() {
               <span className={styles.statLabel}>{s.label}</span>
             </div>
           ))}
+        </div>
+        </div>{/* end heroLeft */}
+
+        <div className={styles.heroVisual}>
+          <MonsterCan />
         </div>
       </div>
 

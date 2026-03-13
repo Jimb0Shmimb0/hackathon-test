@@ -3,7 +3,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   padding-top: 60px;
   overflow: hidden;
   border-bottom: 1px solid var(--border);
@@ -29,13 +29,37 @@
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  align-items: stretch;
+  gap: 2rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.heroLeft {
   display: flex;
   flex-direction: column;
   gap: 4rem;
 }
 
 .heroContent {
-  max-width: 900px;
+  max-width: 700px;
+}
+
+.heroVisual {
+  position: relative;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+  }
+  .heroVisual {
+    height: 380px;
+  }
 }
 
 .heroEyebrow {
