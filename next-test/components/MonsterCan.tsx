@@ -66,7 +66,7 @@ function Can() {
 
     // Neck/shoulder section - tapered frustum from body top up to the neck ring
     const bodyTopY   = center.y - bottomOffset + bodyHeight / 2
-    const neckTopY   = center.y - size.y / 2 + size.y * 0.97
+    const neckTopY   = center.y - size.y / 2 + size.y * 0.98
     const neckHeight = neckTopY - bodyTopY
     const neckTopR   = radius * 0.88
     const neckMidY   = (bodyTopY + neckTopY) / 2
