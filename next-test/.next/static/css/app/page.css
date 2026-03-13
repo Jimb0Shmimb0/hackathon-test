@@ -177,6 +177,7 @@
 .Hero_heroVisual__DkdyM {
   position: relative;
   width: 100%;
+  min-height: 600px;
 }
 
 @media (max-width: 900px) {
