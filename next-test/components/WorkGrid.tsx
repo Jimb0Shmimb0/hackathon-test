@@ -1,163 +1,271 @@
 'use client'
 
-import { useState, useRef } from 'react'
-import Image from 'next/image'
-import { projects, type Category, type Project } from '@/lib/data'
+import { useState, useMemo } from 'react'
+import { drinks, type DrinkCategory, type EnergyDrink, retailers } from '@/lib/data'
 import styles from './WorkGrid.module.css'
 
-const filters: { label: string; value: Category | 'all' }[] = [
+type SortKey = 'price-asc' | 'price-desc' | 'caffeine-desc' | 'calories-asc' | 'size-desc'
+
+const categoryFilters: { label: string; value: DrinkCategory | 'all' }[] = [
   { label: 'All', value: 'all' },
-  { label: 'TV & Film', value: 'tv-film' },
-  { label: 'Editorial', value: 'editorial' },
-  { label: 'Commercial', value: 'commercial' },
+  { label: 'Original', value: 'original' },
+  { label: 'Ultra', value: 'ultra' },
+  { label: 'Juice', value: 'juice' },
+  { label: 'Hydro', value: 'hydro' },
+  { label: 'Rehab', value: 'rehab' },
 ]
 
+const sortOptions: { label: string; value: SortKey }[] = [
+  { label: 'Best Price', value: 'price-asc' },
+  { label: 'Highest Caffeine', value: 'caffeine-desc' },
+  { label: 'Lowest Calories', value: 'calories-asc' },
+  { label: 'Largest Size', value: 'size-desc' },
+  { label: 'Most Expensive', value: 'price-desc' },
+]
+
+function getBestPrice(drink: EnergyDrink) {
+  const inStock = drink.retailers.filter(r => r.inStock)
+  if (!inStock.length) return null
+  return inStock.reduce((a, b) => a.pricePerCan < b.pricePerCan ? a : b)
+}
+
+function getPricePerOz(drink: EnergyDrink) {
+  const best = getBestPrice(drink)
+  if (!best) return null
+  return best.pricePerCan / drink.sizeOz
+}
+
 export default function WorkGrid() {
-  const [active, setActive] = useState<Category | 'all'>('all')
-  const [selected, setSelected] = useState<Project | null>(null)
-  const [videoMode, setVideoMode] = useState<'preview' | 'full'>('preview')
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const [category, setCategory] = useState<DrinkCategory | 'all'>('all')
+  const [sortKey, setSortKey] = useState<SortKey>('price-asc')
+  const [expanded, setExpanded] = useState<number | null>(null)
 
-  const filtered = active === 'all' ? projects : projects.filter(p => p.category === active)
-
-  const openProject = (project: Project) => {
-    setSelected(project)
-    setVideoMode('preview')
-  }
-
-  const closeProject = () => {
-    setSelected(null)
-    if (videoRef.current) videoRef.current.pause()
-  }
+  const filtered = useMemo(() => {
+    const base = category === 'all' ? drinks : drinks.filter(d => d.category === category)
+    return [...base].sort((a, b) => {
+      switch (sortKey) {
+        case 'price-asc': {
+          const pa = getBestPrice(a)?.pricePerCan ?? Infinity
+          const pb = getBestPrice(b)?.pricePerCan ?? Infinity
+          return pa - pb
+        }
+        case 'price-desc': {
+          const pa = getBestPrice(a)?.pricePerCan ?? 0
+          const pb = getBestPrice(b)?.pricePerCan ?? 0
+          return pb - pa
+        }
+        case 'caffeine-desc':
+          return b.caffeineContentMg - a.caffeineContentMg
+        case 'calories-asc':
+          return a.calories - b.calories
+        case 'size-desc':
+          return b.sizeOz - a.sizeOz
+        default:
+          return 0
+      }
+    })
+  }, [category, sortKey])
 
   return (
-    <section className={styles.section}>
-      {/* Filter bar */}
-      <div className={styles.filterBar}>
-        <span className={styles.filterLabel}>Filter:</span>
-        <div className={styles.filters}>
-          {filters.map(f => (
-            <button
-              key={f.value}
-              className={`${styles.filterBtn} ${active === f.value ? styles.filterActive : ''}`}
-              onClick={() => setActive(f.value)}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
-        <span className={styles.filterCount}>{filtered.length.toString().padStart(2, '0')}</span>
-      </div>
-
-      {/* Grid */}
-      <div className={styles.grid}>
-        {filtered.map((project, i) => (
-          <article
-            key={project.id}
-            className={styles.item}
-            onClick={() => openProject(project)}
-          >
-            <div className={styles.itemMedia}>
-              <Image
-                src={project.thumbnailUrl}
-                alt={`${project.title} ${project.subtitle}`}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className={styles.itemImg}
-                unoptimized
-              />
-              <div className={styles.itemOverlay}>
-                <video
-                  src={project.previewVideoUrl}
-                  className={styles.itemVideo}
-                  muted
-                  loop
-                  playsInline
-                  onMouseEnter={e => (e.currentTarget as HTMLVideoElement).play()}
-                  onMouseLeave={e => {
-                    const v = e.currentTarget as HTMLVideoElement
-                    v.pause()
-                    v.currentTime = 0
-                  }}
-                />
-                <div className={styles.playBtn}>
-                  <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                  <span>play video</span>
-                </div>
-              </div>
-            </div>
-            <div className={styles.itemInfo}>
-              <div className={styles.itemMeta}>
-                <span className={styles.itemNum}>{String(i + 1).padStart(2, '0')}.</span>
-                <span className={styles.itemType}>{project.type}</span>
-                <span className={styles.itemCat}>{project.categoryLabel}</span>
-              </div>
-              <div className={styles.itemTitle}>
-                <h2>{project.title}</h2>
-                <h3>{project.subtitle}</h3>
-              </div>
-              <p className={styles.itemClient}>{project.client}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-
-      {/* Modal */}
-      {selected && (
-        <div className={styles.modal} onClick={closeProject}>
-          <div className={styles.modalInner} onClick={e => e.stopPropagation()}>
-            <button className={styles.modalClose} onClick={closeProject}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" width="24" height="24">
-                <path d="M18 6L6 18M6 6l12 12" />
-              </svg>
-              <span>close</span>
-            </button>
-
-            <div className={styles.modalMedia}>
-              <video
-                ref={videoRef}
-                key={videoMode === 'full' ? selected.fullVideoUrl : selected.previewVideoUrl}
-                src={videoMode === 'full' ? selected.fullVideoUrl : selected.previewVideoUrl}
-                controls
-                autoPlay
-                playsInline
-                className={styles.modalVideo}
-              />
-            </div>
-
-            <div className={styles.modalContent}>
-              <div className={styles.modalHeader}>
-                <div className={styles.modalMeta}>
-                  <span>{selected.type}</span>
-                  <span>·</span>
-                  <span>{selected.categoryLabel}</span>
-                </div>
-                <div className={styles.modalTitle}>
-                  <h2>{selected.title}</h2>
-                  <h3>{selected.subtitle}</h3>
-                </div>
-                <p className={styles.modalClient}>{selected.client}</p>
-              </div>
-              <p className={styles.modalDescription}>{selected.description}</p>
-              <div className={styles.modalRole}>
-                <span className={styles.modalRoleLabel}>Role</span>
-                <span>{selected.role}</span>
-              </div>
+    <section className={styles.section} id="products">
+      {/* Controls */}
+      <div className={styles.controls}>
+        <div className={styles.filterBar}>
+          <span className={styles.controlLabel}>Category</span>
+          <div className={styles.filters}>
+            {categoryFilters.map(f => (
               <button
-                className={styles.watchFull}
-                onClick={() => setVideoMode('full')}
+                key={f.value}
+                className={`${styles.filterBtn} ${category === f.value ? styles.filterActive : ''}`}
+                onClick={() => setCategory(f.value)}
               >
-                Watch Full Film
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="16" height="16">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
+                {f.label}
               </button>
-            </div>
+            ))}
           </div>
         </div>
-      )}
+
+        <div className={styles.sortBar}>
+          <span className={styles.controlLabel}>Sort by</span>
+          <select
+            className={styles.sortSelect}
+            value={sortKey}
+            onChange={e => setSortKey(e.target.value as SortKey)}
+          >
+            {sortOptions.map(o => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+        </div>
+
+        <span className={styles.countBadge}>
+          {filtered.length.toString().padStart(2, '0')} products
+        </span>
+      </div>
+
+      {/* Retailer header */}
+      <div className={styles.retailerHeader}>
+        <div className={styles.retailerHeaderLeft}>Product</div>
+        <div className={styles.retailerHeaderRight}>
+          {retailers.map(r => (
+            <span key={r} className={styles.retailerName}>{r}</span>
+          ))}
+          <span className={styles.retailerName}>Best</span>
+        </div>
+      </div>
+
+      {/* Product rows */}
+      <div className={styles.productList}>
+        {filtered.map((drink, i) => {
+          const best = getBestPrice(drink)
+          const pricePerOz = getPricePerOz(drink)
+          const isExpanded = expanded === drink.id
+
+          return (
+            <div key={drink.id} className={`${styles.productRow} ${isExpanded ? styles.rowExpanded : ''}`}>
+              {/* Main row */}
+              <button
+                className={styles.rowMain}
+                onClick={() => setExpanded(isExpanded ? null : drink.id)}
+                aria-expanded={isExpanded}
+              >
+                <div className={styles.rowLeft}>
+                  <span className={styles.rowNum}>{String(i + 1).padStart(2, '0')}</span>
+                  <div
+                    className={styles.canSwatch}
+                    style={{ background: `linear-gradient(135deg, ${drink.accentColor}88, ${drink.accentColor}33)`, borderColor: `${drink.accentColor}44` }}
+                  >
+                    <span className={styles.canIcon}>⚡</span>
+                  </div>
+                  <div className={styles.rowInfo}>
+                    <div className={styles.rowName}>{drink.name}</div>
+                    <div className={styles.rowVariant}>{drink.variant}</div>
+                    <div className={styles.rowBadges}>
+                      <span className={styles.badge} style={{ borderColor: `${drink.accentColor}44`, color: drink.accentColor }}>
+                        {drink.caffeineContentMg}mg
+                      </span>
+                      <span className={styles.badge}>{drink.sizeOz} fl oz</span>
+                      <span className={styles.badge}>{drink.calories} cal</span>
+                      {drink.sugarG === 0 && (
+                        <span className={`${styles.badge} ${styles.badgeZero}`}>Zero Sugar</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.rowPrices}>
+                  {retailers.map(retailer => {
+                    const rp = drink.retailers.find(r => r.retailer === retailer)
+                    if (!rp) return (
+                      <span key={retailer} className={styles.priceCell}>
+                        <span className={styles.priceNA}>—</span>
+                      </span>
+                    )
+                    const isBestRetailer = best?.retailer === retailer
+                    return (
+                      <span
+                        key={retailer}
+                        className={`${styles.priceCell} ${!rp.inStock ? styles.priceCellOos : ''} ${isBestRetailer ? styles.priceCellBest : ''}`}
+                      >
+                        {rp.inStock ? (
+                          <span className={styles.priceValue}>${rp.pricePerCan.toFixed(2)}</span>
+                        ) : (
+                          <span className={styles.priceOos}>OOS</span>
+                        )}
+                      </span>
+                    )
+                  })}
+
+                  <span className={`${styles.priceCell} ${styles.priceCellBestSummary}`}>
+                    {best ? (
+                      <>
+                        <span className={styles.bestPrice}>${best.pricePerCan.toFixed(2)}</span>
+                        <span className={styles.bestRetailer}>{best.retailer}</span>
+                      </>
+                    ) : (
+                      <span className={styles.priceNA}>OOS</span>
+                    )}
+                  </span>
+                </div>
+
+                <span className={`${styles.expandIcon} ${isExpanded ? styles.expandIconOpen : ''}`}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </span>
+              </button>
+
+              {/* Expanded detail */}
+              {isExpanded && (
+                <div className={styles.rowDetail}>
+                  <div className={styles.detailGrid}>
+                    <div className={styles.detailSection}>
+                      <h3 className={styles.detailTitle}>Nutrition Facts</h3>
+                      <div className={styles.nutritionTable}>
+                        <div className={styles.nutritionRow}>
+                          <span>Caffeine</span>
+                          <span className={styles.nutritionVal} style={{ color: drink.accentColor }}>{drink.caffeineContentMg}mg</span>
+                        </div>
+                        <div className={styles.nutritionRow}>
+                          <span>Calories</span>
+                          <span className={styles.nutritionVal}>{drink.calories}</span>
+                        </div>
+                        <div className={styles.nutritionRow}>
+                          <span>Sugar</span>
+                          <span className={styles.nutritionVal}>{drink.sugarG}g</span>
+                        </div>
+                        <div className={styles.nutritionRow}>
+                          <span>Size</span>
+                          <span className={styles.nutritionVal}>{drink.sizeOz} fl oz</span>
+                        </div>
+                        <div className={styles.nutritionRow}>
+                          <span>Category</span>
+                          <span className={styles.nutritionVal}>{drink.categoryLabel}</span>
+                        </div>
+                        {pricePerOz && (
+                          <div className={styles.nutritionRow}>
+                            <span>Price / oz</span>
+                            <span className={styles.nutritionVal}>${pricePerOz.toFixed(3)}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className={styles.detailSection}>
+                      <h3 className={styles.detailTitle}>Retailer Breakdown</h3>
+                      <div className={styles.retailerTable}>
+                        {drink.retailers
+                          .filter(r => r.inStock)
+                          .sort((a, b) => a.pricePerCan - b.pricePerCan)
+                          .map(rp => (
+                            <div key={rp.retailer} className={`${styles.retailerRow} ${best?.retailer === rp.retailer ? styles.retailerRowBest : ''}`}>
+                              <span className={styles.retailerRowName}>
+                                {best?.retailer === rp.retailer && <span className={styles.bestTag}>Best</span>}
+                                {rp.retailer}
+                              </span>
+                              <span className={styles.retailerRowPack}>Pack of {rp.packSize}</span>
+                              <span className={styles.retailerRowTotal}>${rp.totalPrice.toFixed(2)} total</span>
+                              <span className={`${styles.retailerRowPrice} ${best?.retailer === rp.retailer ? styles.retailerRowPriceBest : ''}`}>
+                                ${rp.pricePerCan.toFixed(2)}/can
+                              </span>
+                              <a href={rp.url} className={styles.buyBtn}>Buy →</a>
+                            </div>
+                          ))}
+                        {drink.retailers.filter(r => !r.inStock).map(rp => (
+                          <div key={rp.retailer} className={`${styles.retailerRow} ${styles.retailerRowOos}`}>
+                            <span className={styles.retailerRowName}>{rp.retailer}</span>
+                            <span className={styles.oosLabel}>Out of Stock</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
     </section>
   )
 }

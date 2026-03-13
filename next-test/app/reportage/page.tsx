@@ -1,52 +1,64 @@
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import Cursor from '@/components/Cursor'
-import Image from 'next/image'
+import { drinks } from '@/lib/data'
 import styles from './reportage.module.css'
 
 export const metadata = {
-  title: 'Reportage | Jason Bergh',
+  title: 'Best Deals | VOLT Price Tracker',
 }
 
-const reportageImages = [
-  'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b8787_1.webp',
-  'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b87ab_1-1.webp',
-  'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b87ac_2-1.webp',
-  'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b8789_3.webp',
-  'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b87ad_3-1.webp',
-  'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b878a_4.webp',
-  'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b87ae_4-1.webp',
-  'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b87af_5-1.webp',
-  'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b878b_5.webp',
-  'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b87b0_6-1.webp',
-  'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b878c_6.webp',
-  'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b878d_7.webp',
-]
+export default function DealsPage() {
+  const bestDeals = drinks
+    .map(drink => {
+      const inStock = drink.retailers.filter(r => r.inStock)
+      if (!inStock.length) return null
+      const best = inStock.reduce((a, b) => a.pricePerCan < b.pricePerCan ? a : b)
+      return { drink, best }
+    })
+    .filter(Boolean)
+    .sort((a, b) => a!.best.pricePerCan - b!.best.pricePerCan)
 
-export default function ReportagePage() {
   return (
     <>
-      <Cursor />
       <Nav />
       <main className={styles.main}>
         <div className={styles.header}>
           <span className={styles.num}>02.</span>
-          <h1 className={styles.title}>Reportage</h1>
+          <h1 className={styles.title}>Best Deals</h1>
+          <p className={styles.headerSub}>Lowest price per can across all variants, sorted by value.</p>
         </div>
 
         <div className={styles.grid}>
-          {reportageImages.map((src, i) => (
-            <div key={i} className={styles.imgWrap}>
-              <Image
-                src={src}
-                alt={`Reportage ${i + 1}`}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className={styles.img}
-                unoptimized
-              />
-            </div>
-          ))}
+          {bestDeals.map((entry, i) => {
+            if (!entry) return null
+            const { drink, best } = entry
+            return (
+              <div key={drink.id} className={styles.dealCard}>
+                <div
+                  className={styles.cardTop}
+                  style={{ background: `linear-gradient(135deg, ${drink.accentColor}22, ${drink.accentColor}08)`, borderBottom: `1px solid ${drink.accentColor}33` }}
+                >
+                  <span className={styles.dealRank}>#{i + 1}</span>
+                  <span className={styles.dealIcon}>⚡</span>
+                  <div className={styles.dealPrice}>${best.pricePerCan.toFixed(2)}</div>
+                  <div className={styles.dealPriceLabel}>per can</div>
+                </div>
+                <div className={styles.cardBody}>
+                  <div className={styles.dealName}>{drink.name}</div>
+                  <div className={styles.dealVariant}>{drink.variant}</div>
+                  <div className={styles.dealMeta}>
+                    <span style={{ color: drink.accentColor }}>{drink.caffeineContentMg}mg</span>
+                    <span>{drink.sizeOz} fl oz</span>
+                    <span>{drink.calories} cal</span>
+                  </div>
+                  <div className={styles.dealRetailer}>Best at <strong>{best.retailer}</strong></div>
+                  {best.packSize > 1 && (
+                    <div className={styles.dealPack}>Pack of {best.packSize} · ${best.totalPrice.toFixed(2)} total</div>
+                  )}
+                </div>
+              </div>
+            )
+          })}
         </div>
       </main>
       <Footer />

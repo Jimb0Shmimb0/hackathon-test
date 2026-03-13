@@ -1,90 +1,106 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
+import { drinks } from '@/lib/data'
 import styles from './Hero.module.css'
 
-const previewImages = [
-  { src: 'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b8787_1.webp', alt: 'The Greatest Love Story' },
-  { src: 'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b87ab_1-1.webp', alt: 'Barbara Palvin' },
-  { src: 'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b87ac_2-1.webp', alt: 'Sasha Calle' },
-  { src: 'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b878a_4.webp', alt: 'Halftime' },
-  { src: 'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b87ad_3-1.webp', alt: 'Lenny Kravitz' },
-  { src: 'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b8789_3.webp', alt: 'Noted' },
-  { src: 'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b879d_2-2.webp', alt: 'Mazda Oscars' },
-  { src: 'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b87ae_4-1.webp', alt: 'Katseye' },
-  { src: 'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b87af_5-1.webp', alt: 'RZA' },
-  { src: 'https://cdn.prod.website-files.com/696e26954ee505294b4b8653/696e26954ee505294b4b87b0_6-1.webp', alt: 'Bryan Cranston' },
+const stats = [
+  { label: 'Products Tracked', value: '15' },
+  { label: 'Retailers Monitored', value: '6' },
+  { label: 'Avg Savings vs. Retail', value: '53%' },
+  { label: 'Prices Updated', value: 'Real-time' },
 ]
 
+function getBestDeal(drink: typeof drinks[0]) {
+  const inStock = drink.retailers.filter(r => r.inStock)
+  if (!inStock.length) return null
+  return inStock.reduce((a, b) => a.pricePerCan < b.pricePerCan ? a : b)
+}
+
 export default function Hero() {
-  const heroRef = useRef<HTMLDivElement>(null)
+  const [tickerIndex, setTickerIndex] = useState(0)
 
   useEffect(() => {
-    const hero = heroRef.current
-    if (!hero) return
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e
-      const { innerWidth, innerHeight } = window
-      const x = (clientX / innerWidth - 0.5) * 20
-      const y = (clientY / innerHeight - 0.5) * 20
-      const titleEl = hero.querySelector(`.${styles.heroTitle}`) as HTMLElement
-      if (titleEl) {
-        titleEl.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`
-      }
-    }
-
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
+    const id = setInterval(() => {
+      setTickerIndex(i => (i + 1) % drinks.length)
+    }, 2200)
+    return () => clearInterval(id)
   }, [])
 
+  const tickerDrinks = [...drinks, ...drinks].slice(tickerIndex, tickerIndex + 6)
+
   return (
-    <section className={styles.hero} ref={heroRef}>
-      {/* Background images */}
-      <div className={styles.bgImages}>
-        {previewImages.map((img, i) => (
-          <div
-            key={i}
-            className={styles.bgImage}
-            style={{
-              backgroundImage: `url(${img.src})`,
-              animationDelay: `${i * 0.3}s`,
-            }}
-          />
-        ))}
-        <div className={styles.bgOverlay} />
-      </div>
+    <section className={styles.hero}>
+      <div className={styles.heroInner}>
+        <div className={styles.heroContent}>
+          <div className={styles.heroEyebrow}>
+            <span className={styles.eyebrowDot} />
+            <span>Monster Energy · Real-Time Pricing</span>
+          </div>
 
-      {/* Hero text */}
-      <div className={styles.heroContent}>
-        <div className={styles.heroLabel}>
-          <span>00</span>
-          <span>Jason Bergh</span>
+          <h1 className={styles.heroTitle}>
+            <span className={styles.titleLine1}>Find the Best</span>
+            <span className={styles.titleLine2}>
+              Energy Drink <span className={styles.titleAccent}>Prices.</span>
+            </span>
+          </h1>
+
+          <p className={styles.heroSub}>
+            Track Monster Energy across Amazon, Walmart, Target, Costco and more.
+            Compare caffeine content, serving size, and cost per can — instantly.
+          </p>
+
+          <div className={styles.heroCta}>
+            <a href="#products" className={styles.ctaBtn}>
+              View All Prices
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
+                <path d="M12 5v14M5 12l7 7 7-7" />
+              </svg>
+            </a>
+            <div className={styles.ctaMeta}>
+              <span className={styles.livePill}>
+                <span className={styles.liveDot} />
+                Live data
+              </span>
+              <span className={styles.updateTime}>Updated 2 min ago</span>
+            </div>
+          </div>
         </div>
-        <h1 className={styles.heroTitle}>
-          <span className={styles.heroLine1}>Intimate, Raw</span>
-          <span className={styles.heroLine2}>Human Storytelling</span>
-        </h1>
-        <p className={styles.heroSub}>Director · Cinematographer · Producer</p>
-      </div>
 
-      {/* Scrolling ticker */}
-      <div className={styles.ticker}>
-        <div className={styles.tickerInner}>
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className={styles.tickerTrack}>
-              {['Director', '·', 'Cinematographer', '·', 'Producer', '·', 'Jason Bergh', '·', 'Documentary', '·', 'Editorial', '·', 'Commercial', '·'].map((word, j) => (
-                <span key={j} className={styles.tickerItem}>{word}</span>
-              ))}
+        <div className={styles.heroStats}>
+          {stats.map(s => (
+            <div key={s.label} className={styles.statItem}>
+              <span className={styles.statValue}>{s.value}</span>
+              <span className={styles.statLabel}>{s.label}</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className={styles.scrollIndicator}>
-        <div className={styles.scrollLine} />
-        <span>scroll</span>
+      {/* Live price feed ticker */}
+      <div className={styles.priceFeed}>
+        <div className={styles.feedLabel}>
+          <span className={styles.feedDot} />
+          <span>LIVE PRICES</span>
+        </div>
+        <div className={styles.feedTrack}>
+          {[...drinks, ...drinks].map((drink, i) => {
+            const best = getBestDeal(drink)
+            if (!best) return null
+            return (
+              <div key={`${drink.id}-${i}`} className={styles.feedItem}>
+                <span
+                  className={styles.feedSwatch}
+                  style={{ background: drink.accentColor }}
+                />
+                <span className={styles.feedName}>{drink.name}</span>
+                <span className={styles.feedVariant}>{drink.variant}</span>
+                <span className={styles.feedPrice}>${best.pricePerCan.toFixed(2)}</span>
+                <span className={styles.feedRetailer}>@ {best.retailer}</span>
+              </div>
+            )
+          })}
+        </div>
       </div>
     </section>
   )

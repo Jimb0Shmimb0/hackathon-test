@@ -1,62 +1,58 @@
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import Cursor from '@/components/Cursor'
 import styles from './about.module.css'
 
 export const metadata = {
-  title: 'About | Jason Bergh',
+  title: 'About | VOLT Price Tracker',
 }
 
 export default function AboutPage() {
   return (
     <>
-      <Cursor />
       <Nav />
       <main className={styles.main}>
         <div className={styles.header}>
           <span className={styles.num}>03.</span>
-          <h1 className={styles.title}>About</h1>
+          <h1 className={styles.title}>About VOLT</h1>
         </div>
 
         <div className={styles.content}>
           <div className={styles.bio}>
             <p>
-              Jason Bergh is an award-winning director, cinematographer, and producer whose work spans
-              feature documentaries, docuseries, fashion films, and brand campaigns. Known for intimate,
-              raw human storytelling, Bergh has collaborated with some of the world's most iconic artists,
-              athletes, and cultural figures.
+              VOLT is a real-time energy drink price comparison platform, focused on the Monster Energy
+              product line. We track prices across major retailers including Amazon, Walmart, Target,
+              Costco, 7-Eleven, and GNC — so you always know where to get the best deal.
             </p>
             <p>
-              His filmography includes Netflix's <em>Halftime</em> — an intimate documentary portrait of
-              Jennifer Lopez — and Amazon Original's <em>The Greatest Love Story Never Told</em>, as well as
-              acclaimed docuseries <em>Noted: Alicia Keys The Untold Stories</em> for YouTube Originals and
-              <em>Life's A Tripp</em> for Snapchat Originals.
+              Our platform updates pricing data continuously, compares caffeine content, calories, and
+              price per serving across all variants, and surfaces the lowest available price instantly.
+              Whether you buy in bulk or pick up a single can, VOLT helps you make the smartest choice.
             </p>
             <p>
-              Bergh's work has been recognized at the Tribeca Film Festival, earned Emmy nominations,
-              and screened at major festivals worldwide. He brings an uncompromising visual sensibility
-              and deep emotional intelligence to every project he undertakes.
+              VOLT is not affiliated with Monster Energy Company or any of the retailers listed.
+              All prices are sourced from publicly available retail listings and are for informational
+              purposes only.
             </p>
           </div>
 
           <div className={styles.disciplines}>
-            <h2>Disciplines</h2>
+            <h2>Features</h2>
             <ul>
-              <li>Direction</li>
-              <li>Cinematography</li>
-              <li>Executive Production</li>
-              <li>Showrunning</li>
-              <li>Documentary</li>
-              <li>Fashion Film</li>
-              <li>Commercial</li>
+              <li>Real-time price tracking</li>
+              <li>15+ Monster Energy variants</li>
+              <li>6 major retailers</li>
+              <li>Caffeine comparison</li>
+              <li>Price per serving analysis</li>
+              <li>In-stock status</li>
+              <li>Bulk vs. single pricing</li>
             </ul>
           </div>
         </div>
 
         <div className={styles.clients}>
-          <h2>Selected Clients</h2>
+          <h2>Retailers Tracked</h2>
           <div className={styles.clientGrid}>
-            {['Netflix', 'Amazon', 'YouTube Originals', 'ESPN', 'Snapchat', 'NPR', 'BET', 'NBC', 'Tribeca', 'Flaunt', "Harper's Bazaar", 'InStyle', 'Mazda', 'Genesis', 'JLO Beauty', "Hershey's"].map(c => (
+            {['Amazon', 'Walmart', 'Target', 'Costco', '7-Eleven', 'GNC'].map(c => (
               <span key={c} className={styles.client}>{c}</span>
             ))}
           </div>

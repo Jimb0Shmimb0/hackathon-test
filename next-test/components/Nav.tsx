@@ -6,74 +6,52 @@ import { navLinks } from '@/lib/data'
 import styles from './Nav.module.css'
 
 export default function Nav() {
-  const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [time, setTime] = useState<string>('')
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50)
+    const handleScroll = () => setScrolled(window.scrollY > 10)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
+    const tick = () => {
+      const now = new Date()
+      setTime(now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }))
     }
-  }, [menuOpen])
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [])
 
   return (
-    <>
-      <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
+    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
+      <div className={styles.navInner}>
         <Link href="/" className={styles.logo}>
-          <span className={styles.logoJ}>J</span>
-          <span className={styles.logoName}>ason</span>
-          <span className={styles.logoB}>B</span>
-          <span className={styles.logoLast}>ergh</span>
+          <span className={styles.logoMark}>⚡</span>
+          <span className={styles.logoText}>VOLT</span>
+          <span className={styles.logoSub}>Price Tracker</span>
         </Link>
 
+        <ul className={styles.navLinks}>
+          {navLinks.map(link => (
+            <li key={link.href}>
+              <Link href={link.href} className={styles.navLink}>
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
         <div className={styles.navRight}>
-          <button
-            className={styles.menuToggle}
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
-            <span className={styles.menuLabel}>{menuOpen ? 'close' : 'menu'}</span>
-            <div className={`${styles.menuIcon} ${menuOpen ? styles.open : ''}`}>
-              <span />
-              <span />
-            </div>
-          </button>
-        </div>
-      </nav>
-
-      <div className={`${styles.menuOverlay} ${menuOpen ? styles.menuOpen : ''}`}>
-        <div className={styles.menuContent}>
-          <ul className={styles.menuLinks}>
-            {navLinks.map((link, i) => (
-              <li key={link.href} style={{ animationDelay: `${i * 0.07}s` }}>
-                <Link
-                  href={link.href}
-                  className={styles.menuLink}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <span className={styles.menuNum}>{link.num}</span>
-                  <span className={styles.menuLinkText}>{link.label}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <div className={styles.menuFooter}>
-            <p className={styles.menuCredits}>
-              credits: <a href="https://blacklead.studio/" target="_blank" rel="noopener noreferrer">BL/S®</a>,{' '}
-              <a href="https://www.artycoders.com/" target="_blank" rel="noopener noreferrer">Artycoders</a>{' '}
-              &amp; <a href="https://serhii-art.com/" target="_blank" rel="noopener noreferrer">serhii polyvanyi</a>
-            </p>
+          <div className={styles.liveIndicator}>
+            <span className={styles.liveDot} />
+            <span className={styles.liveText}>LIVE</span>
           </div>
+          <span className={styles.clock}>{time}</span>
         </div>
       </div>
-    </>
+    </nav>
   )
 }

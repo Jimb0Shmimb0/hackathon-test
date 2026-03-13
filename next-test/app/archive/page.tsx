@@ -1,48 +1,47 @@
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import Cursor from '@/components/Cursor'
-import { projects } from '@/lib/data'
-import Image from 'next/image'
+import { drinks } from '@/lib/data'
 import styles from './archive.module.css'
 
 export const metadata = {
-  title: 'Archive | Jason Bergh',
+  title: 'Price History | VOLT',
 }
 
 export default function ArchivePage() {
   return (
     <>
-      <Cursor />
       <Nav />
       <main className={styles.main}>
         <div className={styles.header}>
           <span className={styles.num}>04.</span>
-          <h1 className={styles.title}>Archive</h1>
+          <h1 className={styles.title}>Price History</h1>
         </div>
 
         <div className={styles.list}>
-          {projects.map((project, i) => (
-            <div key={project.id} className={styles.item}>
-              <span className={styles.itemNum}>{String(i + 1).padStart(2, '0')}.</span>
-              <div className={styles.itemThumb}>
-                <Image
-                  src={project.thumbnailUrl}
-                  alt={project.title}
-                  width={80}
-                  height={50}
-                  className={styles.thumb}
-                  unoptimized
-                />
+          {drinks.map((drink, i) => {
+            const inStock = drink.retailers.filter(r => r.inStock)
+            const best = inStock.length ? inStock.reduce((a, b) => a.pricePerCan < b.pricePerCan ? a : b) : null
+            return (
+              <div key={drink.id} className={styles.item}>
+                <span className={styles.itemNum}>{String(i + 1).padStart(2, '0')}.</span>
+                <div
+                  className={styles.itemThumb}
+                  style={{ background: `${drink.accentColor}22`, border: `1px solid ${drink.accentColor}44` }}
+                >
+                  <span>⚡</span>
+                </div>
+                <div className={styles.itemTitle}>
+                  <span>{drink.name}</span>
+                  <span className={styles.subtitle}>{drink.variant}</span>
+                </div>
+                <span className={styles.itemType}>{drink.caffeineContentMg}mg caffeine</span>
+                <span className={styles.itemCat}>{drink.categoryLabel}</span>
+                <span className={styles.itemClient}>
+                  {best ? `$${best.pricePerCan.toFixed(2)} @ ${best.retailer}` : 'Out of Stock'}
+                </span>
               </div>
-              <div className={styles.itemTitle}>
-                <span>{project.title}</span>
-                <span className={styles.subtitle}>{project.subtitle}</span>
-              </div>
-              <span className={styles.itemType}>{project.type}</span>
-              <span className={styles.itemCat}>{project.categoryLabel}</span>
-              <span className={styles.itemClient}>{project.client}</span>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </main>
       <Footer />

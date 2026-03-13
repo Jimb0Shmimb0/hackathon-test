@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
-import { Cormorant_Garamond, Space_Mono } from 'next/font/google'
+import { Space_Grotesk, Space_Mono } from 'next/font/google'
 import './globals.css'
 
-const cormorant = Cormorant_Garamond({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-cormorant',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-grotesk',
 })
 
 const spaceMono = Space_Mono({
@@ -15,8 +15,8 @@ const spaceMono = Space_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Jason Bergh | Director, Cinematographer, Producer',
-  description: 'Intimate, Raw Human Storytelling. Award-winning Director, Cinematographer, and Producer.',
+  title: 'VOLT — Energy Drink Price Tracker',
+  description: 'Track Monster Energy drink prices in real time across Amazon, Walmart, Target, 7-Eleven, Costco and more. Compare by caffeine content, price per serving, and size.',
 }
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${cormorant.variable} ${spaceMono.variable}`}>
+      <body className={`${spaceGrotesk.variable} ${spaceMono.variable}`}>
         {children}
       </body>
     </html>

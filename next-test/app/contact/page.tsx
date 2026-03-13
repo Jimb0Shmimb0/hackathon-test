@@ -1,16 +1,14 @@
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import Cursor from '@/components/Cursor'
 import styles from './contact.module.css'
 
 export const metadata = {
-  title: 'Contact | Jason Bergh',
+  title: 'Contact | VOLT Price Tracker',
 }
 
 export default function ContactPage() {
   return (
     <>
-      <Cursor />
       <Nav />
       <main className={styles.main}>
         <div className={styles.header}>
@@ -20,21 +18,21 @@ export default function ContactPage() {
 
         <div className={styles.content}>
           <div className={styles.intro}>
-            <p>Available for select directorial, cinematographic, and production projects worldwide.</p>
+            <p>Have a suggestion, found a pricing error, or want to request a new product or retailer?</p>
           </div>
 
           <div className={styles.contacts}>
             <div className={styles.contactItem}>
               <span className={styles.contactLabel}>General Inquiries</span>
-              <a href="mailto:info@jasonbergh.com" className={styles.contactLink}>info@jasonbergh.com</a>
+              <a href="mailto:hello@voltprices.com" className={styles.contactLink}>hello@voltprices.com</a>
             </div>
             <div className={styles.contactItem}>
-              <span className={styles.contactLabel}>Commercial & Brand</span>
-              <a href="mailto:brand@jasonbergh.com" className={styles.contactLink}>brand@jasonbergh.com</a>
+              <span className={styles.contactLabel}>Price Corrections</span>
+              <a href="mailto:prices@voltprices.com" className={styles.contactLink}>prices@voltprices.com</a>
             </div>
             <div className={styles.contactItem}>
-              <span className={styles.contactLabel}>Film & TV</span>
-              <a href="mailto:film@jasonbergh.com" className={styles.contactLink}>film@jasonbergh.com</a>
+              <span className={styles.contactLabel}>Product Requests</span>
+              <a href="mailto:products@voltprices.com" className={styles.contactLink}>products@voltprices.com</a>
             </div>
           </div>
         </div>
