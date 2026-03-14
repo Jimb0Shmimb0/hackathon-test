@@ -187,6 +187,19 @@ font-weight: 100 900;
 }.__variable_aeb24f {--font-y2k: '__y2kBrutalism_aeb24f', '__y2kBrutalism_Fallback_aeb24f'
 }
 
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[3].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[3].use[2]!./node_modules/next/font/local/target.css?{"path":"app\\layout.tsx","import":"","arguments":[{"src":"./fonts/chetkiy.otf","variable":"--font-chetkiy","weight":"400"}],"variableName":"chetkiy"} ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+@font-face {
+font-family: '__chetkiy_f34d2f';
+src: url(/_next/static/media/9b75afaeea998b3e-s.p.otf) format('opentype');
+font-display: swap;
+font-weight: 400;
+}@font-face {font-family: '__chetkiy_Fallback_f34d2f';src: local("Arial");ascent-override: 68.10%;descent-override: 17.02%;line-gap-override: 0.00%;size-adjust: 117.48%
+}.__className_f34d2f {font-family: '__chetkiy_f34d2f', '__chetkiy_Fallback_f34d2f';font-weight: 400
+}.__variable_f34d2f {--font-chetkiy: '__chetkiy_f34d2f', '__chetkiy_Fallback_f34d2f'
+}
+
 /*!*************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[3]!./app/globals.css ***!
   \*************************************************************************************************************************************************************************************************************************************************************/

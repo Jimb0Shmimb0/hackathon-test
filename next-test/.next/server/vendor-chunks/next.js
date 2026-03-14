@@ -30,6 +30,16 @@ eval("// Exports\nmodule.exports = {\n\t\"style\": {\"fontFamily\":\"'__Space_Mo
 
 /***/ }),
 
+/***/ "(rsc)/./node_modules/next/font/local/target.css?{\"path\":\"app\\\\layout.tsx\",\"import\":\"\",\"arguments\":[{\"src\":\"./fonts/chetkiy.otf\",\"variable\":\"--font-chetkiy\",\"weight\":\"400\"}],\"variableName\":\"chetkiy\"}":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/font/local/target.css?{"path":"app\\layout.tsx","import":"","arguments":[{"src":"./fonts/chetkiy.otf","variable":"--font-chetkiy","weight":"400"}],"variableName":"chetkiy"} ***!
+  \********************************************************************************************************************************************************************************************************/
+/***/ ((module) => {
+
+eval("// Exports\nmodule.exports = {\n\t\"style\": {\"fontFamily\":\"'__chetkiy_f34d2f', '__chetkiy_Fallback_f34d2f'\",\"fontWeight\":400},\n\t\"className\": \"__className_f34d2f\",\n\t\"variable\": \"__variable_f34d2f\"\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9ub2RlX21vZHVsZXMvbmV4dC9mb250L2xvY2FsL3RhcmdldC5jc3M/e1wicGF0aFwiOlwiYXBwXFxcXGxheW91dC50c3hcIixcImltcG9ydFwiOlwiXCIsXCJhcmd1bWVudHNcIjpbe1wic3JjXCI6XCIuL2ZvbnRzL2NoZXRraXkub3RmXCIsXCJ2YXJpYWJsZVwiOlwiLS1mb250LWNoZXRraXlcIixcIndlaWdodFwiOlwiNDAwXCJ9XSxcInZhcmlhYmxlTmFtZVwiOlwiY2hldGtpeVwifSIsIm1hcHBpbmdzIjoiQUFBQTtBQUNBO0FBQ0EsV0FBVyxnRkFBZ0Y7QUFDM0Y7QUFDQTtBQUNBIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vamFzb24tYmVyZ2gvLi9ub2RlX21vZHVsZXMvbmV4dC9mb250L2xvY2FsL3RhcmdldC5jc3M/YzYwYiJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBFeHBvcnRzXG5tb2R1bGUuZXhwb3J0cyA9IHtcblx0XCJzdHlsZVwiOiB7XCJmb250RmFtaWx5XCI6XCInX19jaGV0a2l5X2YzNGQyZicsICdfX2NoZXRraXlfRmFsbGJhY2tfZjM0ZDJmJ1wiLFwiZm9udFdlaWdodFwiOjQwMH0sXG5cdFwiY2xhc3NOYW1lXCI6IFwiX19jbGFzc05hbWVfZjM0ZDJmXCIsXG5cdFwidmFyaWFibGVcIjogXCJfX3ZhcmlhYmxlX2YzNGQyZlwiXG59O1xuIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(rsc)/./node_modules/next/font/local/target.css?{\"path\":\"app\\\\layout.tsx\",\"import\":\"\",\"arguments\":[{\"src\":\"./fonts/chetkiy.otf\",\"variable\":\"--font-chetkiy\",\"weight\":\"400\"}],\"variableName\":\"chetkiy\"}\n");
+
+/***/ }),
+
 /***/ "(rsc)/./node_modules/next/font/local/target.css?{\"path\":\"app\\\\layout.tsx\",\"import\":\"\",\"arguments\":[{\"src\":\"./fonts/y2k-brutalism.otf\",\"variable\":\"--font-y2k\",\"weight\":\"100 900\"}],\"variableName\":\"y2kBrutalism\"}":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/next/font/local/target.css?{"path":"app\\layout.tsx","import":"","arguments":[{"src":"./fonts/y2k-brutalism.otf","variable":"--font-y2k","weight":"100 900"}],"variableName":"y2kBrutalism"} ***!
