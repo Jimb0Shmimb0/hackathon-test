@@ -129,7 +129,7 @@ function Can() {
   })
 
   return (
-    <group ref={canRef} scale={0.55} rotation={[0.2, 0, 0.12]}>
+    <group ref={canRef} scale={0.55} rotation={[0.2, 0, 0.12]} position={[0, -1.0, 0]}>
       <primitive object={scene} />
     </group>
   )
@@ -137,13 +137,39 @@ function Can() {
 
 useGLTF.preload('/monster_energy_drink.glb')
 
+const BORDER_TEXT = 'UNLEASH THE BEAST \u00b7 MONSTER ENERGY \u00b7 HIGH VOLTAGE \u00b7 SYS-CRITICAL OVERDRIVE \u00b7 MAXIMUM POWER \u00b7 ADRENALINE RUSH \u00b7 160MG CAFFEINE \u00b7 '
+
 export default function MonsterCan() {
   return (
-    <div style={{ width: '100%', height: '100%' }}>
+    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+      {/* Background poster - isolated group so blend mode doesn't affect the canvas */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        isolation: 'isolate',
+        zIndex: 0,
+      }}>
+        {/* Grayscale base image */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'url(/Monster%20Energy%20Acid%20Graphic%20Posters-2.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 38%',
+        }} />
+        {/* Radial glow centered on the explosion */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'radial-gradient(ellipse 55% 45% at 50% 52%, rgba(57, 255, 20, 0.45) 0%, rgba(57, 255, 20, 0.12) 45%, transparent 70%)',
+          mixBlendMode: 'screen',
+          filter: 'blur(10px)',
+        }} />
+      </div>
       <Canvas
         camera={{ position: [0, 0, 5.5], fov: 50 }}
         gl={{ antialias: true, alpha: true }}
-        style={{ background: 'transparent' }}
+        style={{ background: 'transparent', position: 'relative', zIndex: 1 }}
       >
         <ambientLight intensity={0.2} />
         <directionalLight position={[2, 4, 4]} intensity={0.8} />
@@ -152,6 +178,47 @@ export default function MonsterCan() {
         <Can />
         <OrbitControls enablePan={false} enableZoom={true} enableDamping dampingFactor={0.05} />
       </Canvas>
+
+      {/* Animated text frame around the border */}
+      <style>{`
+        @keyframes mcBorderRight { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes mcBorderLeft  { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+        @keyframes mcBorderUp    { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+        @keyframes mcBorderDown  { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+      `}</style>
+
+      {/* Top */}
+      <div style={{ position:'absolute', top:0, left:0, right:0, height:'22px', borderBottom:'1px solid rgba(57,255,20,0.5)', background:'rgba(0,0,0,0.88)', overflow:'hidden', zIndex:4, display:'flex', alignItems:'center', pointerEvents:'none' }}>
+        <span style={{ display:'inline-block', whiteSpace:'nowrap', animation:'mcBorderRight 18s linear infinite', fontSize:'8px', letterSpacing:'0.18em', color:'#39ff14', fontFamily:'monospace', fontWeight:700, textTransform:'uppercase' }}>
+          {(BORDER_TEXT).repeat(8)}
+        </span>
+      </div>
+
+      {/* Bottom */}
+      <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'22px', borderTop:'1px solid rgba(57,255,20,0.5)', background:'rgba(0,0,0,0.88)', overflow:'hidden', zIndex:4, display:'flex', alignItems:'center', pointerEvents:'none' }}>
+        <span style={{ display:'inline-block', whiteSpace:'nowrap', animation:'mcBorderLeft 18s linear infinite', fontSize:'8px', letterSpacing:'0.18em', color:'#39ff14', fontFamily:'monospace', fontWeight:700, textTransform:'uppercase' }}>
+          {(BORDER_TEXT).repeat(8)}
+        </span>
+      </div>
+
+      {/* Left */}
+      <div style={{ position:'absolute', left:0, top:'22px', bottom:'22px', width:'22px', borderRight:'1px solid rgba(57,255,20,0.5)', background:'rgba(0,0,0,0.88)', overflow:'hidden', zIndex:4, display:'flex', justifyContent:'center', pointerEvents:'none' }}>
+        <span style={{ display:'inline-block', whiteSpace:'nowrap', writingMode:'vertical-lr', animation:'mcBorderUp 24s linear infinite', fontSize:'8px', letterSpacing:'0.18em', color:'#39ff14', fontFamily:'monospace', fontWeight:700, textTransform:'uppercase' }}>
+          {(BORDER_TEXT).repeat(6)}
+        </span>
+      </div>
+
+      {/* Right */}
+      <div style={{ position:'absolute', right:0, top:'22px', bottom:'22px', width:'22px', borderLeft:'1px solid rgba(57,255,20,0.5)', background:'rgba(0,0,0,0.88)', overflow:'hidden', zIndex:4, display:'flex', justifyContent:'center', pointerEvents:'none' }}>
+        <span style={{ display:'inline-block', whiteSpace:'nowrap', writingMode:'vertical-rl', animation:'mcBorderDown 24s linear infinite', fontSize:'8px', letterSpacing:'0.18em', color:'#39ff14', fontFamily:'monospace', fontWeight:700, textTransform:'uppercase' }}>
+          {(BORDER_TEXT).repeat(6)}
+        </span>
+      </div>
+
+      {/* Corner dots */}
+      {[{top:0,left:0},{top:0,right:0},{bottom:0,left:0},{bottom:0,right:0}].map((pos, i) => (
+        <div key={i} style={{ position:'absolute', ...pos, width:'22px', height:'22px', background:'#39ff14', zIndex:5, pointerEvents:'none' }} />
+      ))}
     </div>
   )
 }
