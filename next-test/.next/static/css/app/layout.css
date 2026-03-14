@@ -174,16 +174,17 @@
 }.__variable_e8b655 {--font-mono: '__Space_Mono_e8b655', '__Space_Mono_Fallback_e8b655'
 }
 
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[3].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[3].use[2]!./node_modules/next/font/local/target.css?{"path":"app\\layout.tsx","import":"","arguments":[{"src":"../public/fonts/y2k-brutalism.otf","variable":"--font-y2k"}],"variableName":"y2kBrutalism"} ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[3].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[3].use[2]!./node_modules/next/font/local/target.css?{"path":"app\\layout.tsx","import":"","arguments":[{"src":"./fonts/y2k-brutalism.otf","variable":"--font-y2k","weight":"100 900"}],"variableName":"y2kBrutalism"} ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 @font-face {
-font-family: '__y2kBrutalism_f0cab9';
+font-family: '__y2kBrutalism_aeb24f';
 src: url(/_next/static/media/b98e9a7c2efd57f3-s.p.otf) format('opentype');
 font-display: swap;
-}@font-face {font-family: '__y2kBrutalism_Fallback_f0cab9';src: local("Arial");ascent-override: 23.08%;descent-override: 6.16%;line-gap-override: 0.00%;size-adjust: 324.91%
-}.__className_f0cab9 {font-family: '__y2kBrutalism_f0cab9', '__y2kBrutalism_Fallback_f0cab9'
-}.__variable_f0cab9 {--font-y2k: '__y2kBrutalism_f0cab9', '__y2kBrutalism_Fallback_f0cab9'
+font-weight: 100 900;
+}@font-face {font-family: '__y2kBrutalism_Fallback_aeb24f';src: local("Arial");ascent-override: 23.08%;descent-override: 6.16%;line-gap-override: 0.00%;size-adjust: 324.91%
+}.__className_aeb24f {font-family: '__y2kBrutalism_aeb24f', '__y2kBrutalism_Fallback_aeb24f'
+}.__variable_aeb24f {--font-y2k: '__y2kBrutalism_aeb24f', '__y2kBrutalism_Fallback_aeb24f'
 }
 
 /*!*************************************************************************************************************************************************************************************************************************************************************!*\

@@ -241,7 +241,7 @@
 }
 
 .Hero_heroTitle__Vt9JT {
-  font-family: var(--font-display);
+  font-family: var(--font-y2k), 'Orbitron', sans-serif;
   font-weight: 700;
   line-height: 0.95;
   letter-spacing: -0.02em;
@@ -251,12 +251,12 @@
 }
 
 .Hero_titleLine1__zq3at {
-  font-size: clamp(3rem, 8vw, 7rem);
+  font-size: clamp(2rem, 5vw, 4.5rem);
   color: var(--fg-dim);
 }
 
 .Hero_titleLine2__PGpa5 {
-  font-size: clamp(3rem, 8vw, 7rem);
+  font-size: clamp(2rem, 5vw, 4.5rem);
   color: var(--fg);
 }
 

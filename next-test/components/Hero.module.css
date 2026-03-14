@@ -115,7 +115,7 @@
 }
 
 .heroTitle {
-  font-family: var(--font-display);
+  font-family: var(--font-y2k), 'Orbitron', sans-serif;
   font-weight: 700;
   line-height: 0.95;
   letter-spacing: -0.02em;
@@ -125,12 +125,12 @@
 }
 
 .titleLine1 {
-  font-size: clamp(3rem, 8vw, 7rem);
+  font-size: clamp(2rem, 5vw, 4.5rem);
   color: var(--fg-dim);
 }
 
 .titleLine2 {
-  font-size: clamp(3rem, 8vw, 7rem);
+  font-size: clamp(2rem, 5vw, 4.5rem);
   color: var(--fg);
 }
 

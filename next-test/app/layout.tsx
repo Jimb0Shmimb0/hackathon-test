@@ -16,12 +16,13 @@ const spaceMono = Space_Mono({
 })
 
 const y2kBrutalism = localFont({
-  src: '../public/fonts/y2k-brutalism.otf',
+  src: './fonts/y2k-brutalism.otf',
   variable: '--font-y2k',
+  weight: '100 900',
 })
 
 export const metadata: Metadata = {
-  title: 'VOLT — Energy Drink Price Tracker',
+  title: 'VOLT - Energy Drink Price Tracker',
   description: 'Track Monster Energy drink prices in real time across Amazon, Walmart, Target, 7-Eleven, Costco and more. Compare by caffeine content, price per serving, and size.',
 }
 
