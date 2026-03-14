@@ -30,6 +30,16 @@ eval("// Exports\nmodule.exports = {\n\t\"style\": {\"fontFamily\":\"'__Space_Mo
 
 /***/ }),
 
+/***/ "(rsc)/./node_modules/next/font/local/target.css?{\"path\":\"app\\\\layout.tsx\",\"import\":\"\",\"arguments\":[{\"src\":\"../public/fonts/y2k-brutalism.otf\",\"variable\":\"--font-y2k\"}],\"variableName\":\"y2kBrutalism\"}":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/font/local/target.css?{"path":"app\\layout.tsx","import":"","arguments":[{"src":"../public/fonts/y2k-brutalism.otf","variable":"--font-y2k"}],"variableName":"y2kBrutalism"} ***!
+  \********************************************************************************************************************************************************************************************************/
+/***/ ((module) => {
+
+eval("// Exports\nmodule.exports = {\n\t\"style\": {\"fontFamily\":\"'__y2kBrutalism_f0cab9', '__y2kBrutalism_Fallback_f0cab9'\"},\n\t\"className\": \"__className_f0cab9\",\n\t\"variable\": \"__variable_f0cab9\"\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9ub2RlX21vZHVsZXMvbmV4dC9mb250L2xvY2FsL3RhcmdldC5jc3M/e1wicGF0aFwiOlwiYXBwXFxcXGxheW91dC50c3hcIixcImltcG9ydFwiOlwiXCIsXCJhcmd1bWVudHNcIjpbe1wic3JjXCI6XCIuLi9wdWJsaWMvZm9udHMveTJrLWJydXRhbGlzbS5vdGZcIixcInZhcmlhYmxlXCI6XCItLWZvbnQteTJrXCJ9XSxcInZhcmlhYmxlTmFtZVwiOlwieTJrQnJ1dGFsaXNtXCJ9IiwibWFwcGluZ3MiOiJBQUFBO0FBQ0E7QUFDQSxXQUFXLHlFQUF5RTtBQUNwRjtBQUNBO0FBQ0EiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9qYXNvbi1iZXJnaC8uL25vZGVfbW9kdWxlcy9uZXh0L2ZvbnQvbG9jYWwvdGFyZ2V0LmNzcz83ZTBjIl0sInNvdXJjZXNDb250ZW50IjpbIi8vIEV4cG9ydHNcbm1vZHVsZS5leHBvcnRzID0ge1xuXHRcInN0eWxlXCI6IHtcImZvbnRGYW1pbHlcIjpcIidfX3kya0JydXRhbGlzbV9mMGNhYjknLCAnX195MmtCcnV0YWxpc21fRmFsbGJhY2tfZjBjYWI5J1wifSxcblx0XCJjbGFzc05hbWVcIjogXCJfX2NsYXNzTmFtZV9mMGNhYjlcIixcblx0XCJ2YXJpYWJsZVwiOiBcIl9fdmFyaWFibGVfZjBjYWI5XCJcbn07XG4iXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(rsc)/./node_modules/next/font/local/target.css?{\"path\":\"app\\\\layout.tsx\",\"import\":\"\",\"arguments\":[{\"src\":\"../public/fonts/y2k-brutalism.otf\",\"variable\":\"--font-y2k\"}],\"variableName\":\"y2kBrutalism\"}\n");
+
+/***/ }),
+
 /***/ "(ssr)/./node_modules/next/dist/api/app-dynamic.js":
 /*!***************************************************!*\
   !*** ./node_modules/next/dist/api/app-dynamic.js ***!
